@@ -17,7 +17,15 @@ from src.common.resilience import with_retry, circuit_breaker, CircuitOpenError,
 
 log = logging.getLogger(__name__)
 
-client = OpenAI()
+# Lazy-loaded client to avoid errors at import time (e.g., in CI without API key)
+_client = None
+
+def _get_client() -> OpenAI:
+    """Get or create the OpenAI client (lazy initialization)."""
+    global _client
+    if _client is None:
+        _client = OpenAI()
+    return _client
 
 SYSTEM_PROMPT = """You are the Keenasty Fantasy Football Analyst - think Bill Simmons meets your trash-talking group chat. 
 
@@ -175,7 +183,7 @@ def _call_openai(input_list: list, tools: list) -> any:
     """
     start = time.perf_counter()
     try:
-        resp = client.responses.create(
+        resp = _get_client().responses.create(
             model="gpt-5",
             tools=tools,
             input=input_list,
