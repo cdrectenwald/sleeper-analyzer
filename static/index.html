@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleeper Analyzer</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="/static/keenan.png" alt="Keenasty Logo" class="logo">
+            <h1>Keenasty FF Analyzer</h1>
+            <p class="subtitle">Ask questions about Keenasty fantasy football</p>
+        </header>
+
+        <div class="settings">
+            <label for="season">Season:</label>
+            <select id="season">
+                <option value="all">All-Time</option>
+                <option value="2025">2025</option>
+                <option value="2024" selected>2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+            </select>
+            <a href="/glossary" class="glossary-link">What do these stats mean?</a>
+        </div>
+
+        <div class="chat-container" id="chat-container">
+            <div class="message assistant">
+                <div class="message-content">
+                    Welcome to the Keenasty War Room! I'm here to break down your fantasy season like it's Game 7 of the Finals. 
+                    Pick a season from the dropdown (or go All-Time for the full dynasty view), then ask me anything:
+                    <ul>
+                        <li>"Who got the luckiest this year?"</li>
+                        <li>"Which player scored the most points in 2024?"</li>
+                        <li>"Who's been the most unlucky manager of all time?"</li>
+                        <li>"How did everyone do in the playoff weeks?"</li>
+                    </ul>
+                    New to the stats? Check out the <a href="/glossary">glossary</a> so you know what we're talking about.
+                </div>
+            </div>
+        </div>
+
+        <form id="chat-form" class="input-container">
+            <input 
+                type="text" 
+                id="message-input" 
+                placeholder="Ask about your league..." 
+                autocomplete="off"
+                required
+            >
+            <button type="submit" id="send-btn">
+                <span class="btn-text">Send</span>
+                <span class="btn-loading" hidden>...</span>
+            </button>
+        </form>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

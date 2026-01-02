@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary - Keenasty FF Analyzer</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        .glossary-container {
+            background: #FFFFCC;
+            border: 2px inset #808080;
+            padding: 20px;
+            margin-top: 0;
+        }
+        .term {
+            background: #fff;
+            border: 1px solid #999;
+            border-left: 4px solid #FF8C00;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+        }
+        .term h3 {
+            color: #003366;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-family: "Arial Black", Impact, sans-serif;
+        }
+        .term p {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .term .example {
+            background: #f0f0f0;
+            border-left: 3px solid #003366;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-style: italic;
+            font-size: 11px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #003366;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 8px 15px;
+            background: linear-gradient(180deg, #F0F0F0 0%, #C0C0C0 50%, #A0A0A0 100%);
+            border: 2px outset #C0C0C0;
+        }
+        .back-link:hover {
+            background: linear-gradient(180deg, #FFF 0%, #E0E0E0 50%, #C0C0C0 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="/static/keenan.png" alt="Keenasty Logo" class="logo">
+            <h1>Fantasy Football Glossary</h1>
+            <p class="subtitle">Understanding your stats like a pro</p>
+        </header>
+
+        <div class="glossary-container">
+            <div class="term">
+                <h3>Luck Score</h3>
+                <p>
+                    The difference between your <strong>actual wins</strong> and your <strong>expected wins</strong> 
+                    based on all-play record. A positive luck score means you won more games than your points 
+                    suggested you should have. A negative score means the fantasy gods were cruel to you.
+                </p>
+                <div class="example">
+                    Example: You went 10-4 but your all-play record was 8-6. Your luck score is +2. 
+                    You got lucky matchups where your opponents had bad weeks when they played you.
+                </div>
+            </div>
+
+            <div class="term">
+                <h3>All-Play Record</h3>
+                <p>
+                    How you would have done if you played <em>every team</em> every week instead of just your 
+                    scheduled opponent. This is the truest measure of how good your team actually was.
+                </p>
+                <div class="example">
+                    Example: In a 10-team league, you "play" 9 games per week (against everyone else). 
+                    If you scored the 3rd most points in Week 1, you'd go 7-2 in all-play for that week.
+                </div>
+            </div>
+
+            <div class="term">
+                <h3>Expected Wins</h3>
+                <p>
+                    Based on your all-play record, this is how many games you "should" have won. It's calculated 
+                    by taking your all-play win percentage and multiplying by actual games played.
+                </p>
+                <div class="example">
+                    Example: 60% all-play win rate over 14 weeks = 8.4 expected wins.
+                </div>
+            </div>
+
+            <div class="term">
+                <h3>Points For (PF)</h3>
+                <p>
+                    Total points your team scored across all weeks. The most basic measure of team quality.
+                </p>
+            </div>
+
+            <div class="term">
+                <h3>Bench Points</h3>
+                <p>
+                    Points scored by players on your bench who didn't start. High bench points might indicate 
+                    good depth or poor start/sit decisions.
+                </p>
+            </div>
+
+            <div class="term">
+                <h3>Weekly Scoring</h3>
+                <p>
+                    Individual player points for a specific week. We track starters vs bench and can show 
+                    which players carried your team (or let you down).
+                </p>
+            </div>
+
+            <div class="term">
+                <h3>Manager vs Player Stats</h3>
+                <p>
+                    <strong>Manager stats</strong> = Team-level performance (wins, luck, total points).<br>
+                    <strong>Player stats</strong> = Individual NFL player performance within your league's scoring.
+                </p>
+            </div>
+
+            <a href="/" class="back-link">Back to Chat</a>
+        </div>
+    </div>
+</body>
+</html>

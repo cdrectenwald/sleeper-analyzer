@@ -1,0 +1,343 @@
+/* Early 2000s Forum/Chatboard Style */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    background-color: #003366;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23004488' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    color: #000000;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+    border: 3px outset #FFD700;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.logo {
+    max-width: 120px;
+    height: auto;
+    margin-bottom: 10px;
+    border: 2px solid #000;
+    background: #fff;
+    padding: 3px;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #003366;
+    text-shadow: 1px 1px 0 #fff, 2px 2px 0 #FFD700;
+    font-weight: bold;
+    letter-spacing: -1px;
+    margin-bottom: 5px;
+    font-family: "Impact", "Arial Black", sans-serif;
+}
+
+.subtitle {
+    color: #003366;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.settings {
+    background: #C0C0C0;
+    border: 2px inset #808080;
+    padding: 8px 15px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.settings label {
+    color: #000;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.glossary-link {
+    margin-left: auto;
+    color: #003366;
+    font-size: 10px;
+    text-decoration: underline;
+}
+
+.glossary-link:hover {
+    color: #FF8C00;
+}
+
+.settings select {
+    background: #fff;
+    color: #000;
+    border: 2px inset #808080;
+    padding: 3px 5px;
+    font-size: 11px;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    cursor: pointer;
+}
+
+.chat-container {
+    background: #FFFFCC;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #808080;
+    border-bottom: 2px solid #fff;
+    padding: 10px;
+    min-height: 350px;
+    max-height: 450px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    display: block;
+    max-width: 100%;
+    border: 1px solid #999;
+    background: #fff;
+}
+
+.message.user {
+    background: #E6F3FF;
+    border-left: 4px solid #003366;
+}
+
+.message.assistant {
+    background: #FFF8DC;
+    border-left: 4px solid #FF8C00;
+}
+
+.message-content {
+    padding: 8px 10px;
+    line-height: 1.6;
+    font-size: 12px;
+}
+
+.message-content a {
+    color: #003366;
+    text-decoration: underline;
+}
+
+.message-content a:hover {
+    color: #FF8C00;
+}
+
+.message-content::before {
+    display: block;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.message.user .message-content::before {
+    content: "You wrote:";
+    color: #003366;
+}
+
+.message.assistant .message-content::before {
+    content: "Keenasty Bot replied:";
+    color: #CC6600;
+}
+
+.message-content ul {
+    margin: 8px 0 5px 20px;
+    list-style-type: square;
+}
+
+.message-content li {
+    margin: 4px 0;
+    color: #333;
+}
+
+.message.error {
+    background: #FFE0E0;
+    border-left: 4px solid #CC0000;
+}
+
+.message.error .message-content::before {
+    content: "ERROR:";
+    color: #CC0000;
+}
+
+.input-container {
+    display: flex;
+    gap: 0;
+    background: #C0C0C0;
+    border: 2px outset #808080;
+    padding: 10px;
+}
+
+#message-input {
+    flex: 1;
+    padding: 6px 8px;
+    border: 2px inset #808080;
+    background: #fff;
+    color: #000;
+    font-size: 12px;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+}
+
+#message-input:focus {
+    outline: 1px dotted #000;
+}
+
+#message-input::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+#send-btn {
+    padding: 6px 20px;
+    background: linear-gradient(180deg, #F0F0F0 0%, #C0C0C0 50%, #A0A0A0 100%);
+    color: #000;
+    border: 2px outset #C0C0C0;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+#send-btn:hover {
+    background: linear-gradient(180deg, #FFF 0%, #E0E0E0 50%, #C0C0C0 100%);
+}
+
+#send-btn:active {
+    border: 2px inset #808080;
+    background: #A0A0A0;
+}
+
+#send-btn:disabled {
+    color: #808080;
+    cursor: wait;
+}
+
+.btn-loading {
+    display: inline;
+}
+
+/* Scrollbar - Windows 2000 style */
+.chat-container::-webkit-scrollbar {
+    width: 16px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: #C0C0C0;
+    border: 1px inset #808080;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #F0F0F0, #C0C0C0, #A0A0A0);
+    border: 2px outset #C0C0C0;
+}
+
+.chat-container::-webkit-scrollbar-button {
+    background: #C0C0C0;
+    border: 2px outset #808080;
+    height: 16px;
+}
+
+/* Footer bar */
+.container::after {
+    content: "Keenasty FF - Est. 2022 | Powered by bad decisions and worse draft picks";
+    display: block;
+    background: #003366;
+    color: #FFD700;
+    text-align: center;
+    padding: 8px;
+    font-size: 10px;
+    border: 2px outset #004488;
+    margin-top: 0;
+}
+
+/* Confidence indicators */
+.confidence {
+    font-size: 9px;
+    padding: 3px 6px;
+    margin-top: 6px;
+    border-radius: 0;
+    display: inline-block;
+}
+
+.confidence-high {
+    background: #90EE90;
+    border: 1px solid #228B22;
+    color: #006400;
+}
+
+.confidence-medium {
+    background: #FFE4B5;
+    border: 1px solid #FF8C00;
+    color: #8B4513;
+}
+
+.confidence-low {
+    background: #FFB6C1;
+    border: 1px solid #DC143C;
+    color: #8B0000;
+}
+
+/* Follow-up suggestions */
+.suggestions {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #808080;
+}
+
+.suggestions-label {
+    font-size: 9px;
+    color: #666;
+    font-style: italic;
+}
+
+.suggestion-btn {
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-size: 10px;
+    background: linear-gradient(180deg, #F5F5F5, #E0E0E0, #C0C0C0);
+    border: 2px outset #C0C0C0;
+    padding: 3px 8px;
+    margin: 2px;
+    cursor: pointer;
+    color: #003366;
+}
+
+.suggestion-btn:hover {
+    background: linear-gradient(180deg, #FFD700, #FFA500, #FF8C00);
+    color: #003366;
+}
+
+.suggestion-btn:active {
+    border-style: inset;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+    }
+    
+    header h1 {
+        font-size: 18px;
+    }
+    
+    .logo {
+        max-width: 80px;
+    }
+}
