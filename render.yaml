@@ -1,0 +1,15 @@
+# Render.com deployment configuration
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: sleeper-analyzer
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # You'll set this manually in dashboard
+      - key: PYTHON_VERSION
+        value: "3.12"

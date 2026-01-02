@@ -7,7 +7,7 @@ class Settings:
     
     def __init__(self):
         self.openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
-        self.db_path: str = os.getenv("DB_PATH", "data/processed/sleeper.sqlite")
+        self.db_path: str = os.getenv("DB_PATH", "db/sleeper.sqlite")
         self.default_season: str = os.getenv("DEFAULT_SEASON", "2025")
         self.log_level: str = os.getenv("LOG_LEVEL", "INFO")
 
