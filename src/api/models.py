@@ -1,15 +1,7 @@
 """
 Pydantic models for API request validation and response serialization.
 
-This module defines all request and response schemas used by the API endpoints.
-Models use Pydantic v2 conventions with:
-- Field validators for semantic validation
-- Comprehensive field descriptions for OpenAPI docs
-- Example values for documentation
-
-Naming Convention:
-    - Requests: <Entity><Action>Request (e.g., ChatRequest)
-    - Responses: <Entity>Response (e.g., ChatResponse)
+Naming: Requests use <Entity>Request, Responses use <Entity>Response.
 """
 
 from __future__ import annotations
@@ -33,19 +25,7 @@ class ChatMessage(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    """
-    Request body for the /chat endpoint.
-
-    Attributes:
-        message: The user's question or command. Must be non-empty.
-        season: Optional season year (e.g., "2024"). If omitted, uses default.
-                Special value "all" triggers cross-season analysis.
-        league_id: Optional Sleeper league ID. If omitted, derived from season.
-        history: Optional conversation history for context.
-
-    Example:
-        >>> req = ChatRequest(message="Who was the luckiest manager?", season="2024")
-    """
+    """Request body for the /chat endpoint."""
 
     message: Annotated[
         str,
@@ -107,19 +87,7 @@ class ChatRequest(BaseModel):
 
 
 class ChatResponse(BaseModel):
-    """
-    Response body for the /chat endpoint.
-
-    Attributes:
-        answer: The AI-generated response to the user's question.
-        confidence: How confident the AI is in its answer (high/medium/low).
-        season: The season that was queried (for display purposes).
-        league_id: The league_id used (None for cross-season queries).
-        follow_up_suggestions: Optional suggested follow-up questions.
-
-    Example:
-        >>> resp = ChatResponse(answer="Here's the thing about luck...", confidence="high")
-    """
+    """Response body for the /chat endpoint."""
 
     answer: Annotated[
         str,
@@ -150,17 +118,7 @@ class ChatResponse(BaseModel):
 
 
 class ErrorResponse(BaseModel):
-    """
-    Standard error response body.
-
-    Used by exception handlers to return structured errors.
-    Matches the format produced by SleeperAnalyzerError.to_response_dict().
-
-    Attributes:
-        error: Machine-readable error code (e.g., "validation_error").
-        detail: Human-readable error description.
-        context: Optional additional error context (debugging info).
-    """
+    """Standard error response body."""
 
     error: Annotated[str, Field(description="Machine-readable error code")]
     detail: Annotated[str, Field(description="Human-readable error message")]
@@ -171,11 +129,7 @@ class ErrorResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    """
-    Response body for the /health endpoint.
-
-    Used by load balancers and monitoring systems to verify service health.
-    """
+    """Response body for health check endpoints."""
 
     status: Annotated[
         str,

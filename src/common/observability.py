@@ -1,17 +1,5 @@
 """
-Observability infrastructure for the Sleeper Analyzer.
-
-This module provides:
-- Structured logging with correlation IDs for request tracing
-- Metrics collection (response times, error rates, tool usage)
-- Request context management
-
-Usage:
-    from src.common.observability import get_request_context, metrics
-
-    with get_request_context() as ctx:
-        ctx.log.info("Processing request")
-        metrics.record_latency("chat", elapsed_time)
+Observability infrastructure: correlation IDs, metrics, and request context.
 """
 
 from __future__ import annotations
@@ -30,14 +18,7 @@ log = logging.getLogger(__name__)
 
 @dataclass
 class RequestContext:
-    """
-    Context object for a single request, providing correlated logging and timing.
-    
-    Attributes:
-        request_id: Unique identifier for this request (UUID).
-        start_time: When the request started (perf_counter).
-        metadata: Arbitrary key-value pairs for context.
-    """
+    """Context object for a single request with correlation ID and timing."""
     request_id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
     start_time: float = field(default_factory=time.perf_counter)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -69,15 +50,7 @@ _current_context: RequestContext | None = None
 
 @contextmanager
 def get_request_context(**initial_metadata: Any) -> Generator[RequestContext, None, None]:
-    """
-    Create a new request context for tracing.
-    
-    Usage:
-        with get_request_context(season="2024", user_message="Who was luckiest?") as ctx:
-            ctx.log.info("Starting chat request")
-            # ... do work ...
-            ctx.log.info("Completed in %.2fms", ctx.elapsed_ms)
-    """
+    """Create a new request context for tracing."""
     global _current_context
     
     ctx = RequestContext(metadata=initial_metadata)
@@ -96,16 +69,7 @@ def current_context() -> RequestContext | None:
 
 
 class Metrics:
-    """
-    Simple in-memory metrics collector.
-    
-    Collects:
-    - Latency histograms (p50, p95, p99)
-    - Error counts by type
-    - Tool usage counts
-    
-    For production, replace with Prometheus, StatsD, or OpenTelemetry.
-    """
+    """In-memory metrics collector for latencies, errors, and tool usage."""
     
     def __init__(self) -> None:
         self._lock = Lock()
@@ -138,15 +102,7 @@ class Metrics:
             self._requests[endpoint] += 1
     
     def get_stats(self) -> dict[str, Any]:
-        """
-        Get current metrics snapshot.
-        
-        Returns dict with:
-        - latencies: {operation: {count, p50, p95, p99, avg}}
-        - errors: {error_type: count}
-        - tool_calls: {tool_name: count}
-        - requests: {endpoint: count}
-        """
+        """Get current metrics snapshot."""
         with self._lock:
             latency_stats = {}
             for op, values in self._latencies.items():
@@ -183,13 +139,7 @@ metrics = Metrics()
 
 @contextmanager
 def timed_operation(operation: str) -> Generator[None, None, None]:
-    """
-    Context manager to time an operation and record metrics.
-    
-    Usage:
-        with timed_operation("database_query"):
-            result = db.execute(query)
-    """
+    """Context manager to time an operation and record metrics."""
     start = time.perf_counter()
     try:
         yield

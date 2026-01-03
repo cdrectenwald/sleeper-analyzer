@@ -17,7 +17,6 @@ from src.common.resilience import with_retry, circuit_breaker, CircuitOpenError,
 
 log = logging.getLogger(__name__)
 
-# Lazy-loaded client to avoid errors at import time (e.g., in CI without API key)
 _client = None
 
 def _get_client() -> OpenAI:
@@ -168,9 +167,6 @@ TOOL_DISPATCH = {
 }
 
 
-# Resilient OpenAI API wrapper
-# - Retries on transient errors (rate limit, timeout)
-# - Circuit breaker prevents cascade failures
 @with_retry(max_attempts=3, backoff_base=2.0, retryable_exceptions=(RateLimitError, APITimeoutError))
 @circuit_breaker(name="openai", failure_threshold=5, recovery_timeout=60)
 def _call_openai(input_list: list, tools: list) -> any:
@@ -216,7 +212,7 @@ def answer(
     """
     log.debug("LLM question: %s", question[:100])
     
-    # Build context hint for the model (don't mention league_id to user)
+
     context_hint = ""
     if default_season:
         context_hint = f"\n\n[Internal context - do not mention league_id to user: season={default_season}"
@@ -224,7 +220,6 @@ def answer(
             context_hint += f", league_id={default_league_id}"
         context_hint += "]"
     
-    # We keep a running input list, as in the OpenAI function calling guide.
     input_list = [
         {
             "role": "system",
@@ -232,7 +227,7 @@ def answer(
         },
     ]
     
-    # Add conversation history if provided (limit to last 10 messages)
+    # Keeping history could be more robust, but limited to 10 messages for now
     if history:
         for msg in history[-10:]:
             input_list.append({
@@ -240,7 +235,6 @@ def answer(
                 "content": msg.get("content", ""),
             })
     
-    # Add current question
     input_list.append({
         "role": "user",
         "content": question + context_hint,
@@ -248,7 +242,6 @@ def answer(
 
     tools_called = []
     
-    # Tool-calling loop (max 4 hops)
     for iteration in range(4):
         try:
             resp = _call_openai(input_list, TOOLS)
@@ -267,7 +260,6 @@ def answer(
                 "follow_up_suggestions": ["Try again shortly"],
             }
 
-        # Important: append the model output items back into the input list, then add tool outputs.
         input_list += resp.output
 
         tool_called = False

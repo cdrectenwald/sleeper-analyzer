@@ -63,7 +63,7 @@ def get_circuits() -> dict:
     "/reset",
     summary="Reset all metrics",
     description="Reset all metrics counters. Useful for testing.",
-    include_in_schema=False,  # Hide from public docs
+    include_in_schema=False,
 )
 def reset_metrics() -> dict:
     """Reset all metrics (for testing/debugging)."""

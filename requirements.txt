@@ -1,20 +1,7 @@
-# Web framework
 fastapi>=0.109.0
 uvicorn[standard]>=0.27.0
-
-# OpenAI
 openai>=1.12.0
-
-# Configuration
 pydantic>=2.5.0
-
-# HTTP client (for Sleeper API)
 requests>=2.31.0
-
-# Testing
 pytest>=7.4.0
-httpx>=0.26.0  # Required for FastAPI TestClient
-
-# Optional: Linting and formatting
-# ruff>=0.1.0
-# black>=24.0.0
+httpx>=0.26.0

@@ -1,16 +1,7 @@
 """
 Chat endpoint for LLM-powered fantasy football analysis.
 
-This module handles the core chat functionality, routing user questions
-to the LLM service and returning AI-generated analysis.
-
-Endpoints:
-    POST /chat - Submit a question and receive AI analysis
-
-Example:
-    >>> import httpx
-    >>> resp = httpx.post("/chat", json={"message": "Who was luckiest?", "season": "2024"})
-    >>> print(resp.json()["answer"])
+Routes user questions to the LLM service and returns AI-generated analysis.
 """
 
 from __future__ import annotations
@@ -58,26 +49,7 @@ router = APIRouter(tags=["chat"])
     """,
 )
 def chat(req: ChatRequest) -> ChatResponse:
-    """
-    Process a chat message and return AI-generated analysis.
-
-    This endpoint:
-    1. Resolves the season and league_id from the request or defaults
-    2. Passes the question to the LLM with function-calling capabilities
-    3. Returns the AI's response with confidence and suggestions
-
-    Args:
-        req: Validated chat request with message, optional season/league_id, and history.
-
-    Returns:
-        ChatResponse with the AI's answer, confidence level, and follow-up suggestions.
-
-    Raises:
-        LLMError: If the AI service fails unexpectedly.
-        LLMTimeoutError: If the AI service times out.
-        LLMRateLimitError: If the AI service rate limit is exceeded.
-    """
-    # Lazy import to avoid circular dependency and speed up module load
+    """Process a chat message and return AI-generated analysis."""
     from src.chat.llm import answer
 
     start = time.perf_counter()
@@ -85,13 +57,12 @@ def chat(req: ChatRequest) -> ChatResponse:
 
     # Resolve league_id based on season
     if season.lower() == "all":
-        league_id = None  # Cross-season queries don't use a specific league
+        league_id = None  
         season_display = "all"
     else:
         league_id = req.league_id or settings.default_leagues.get(season)
         season_display = season
 
-    # Convert history to dict format for LLM
     history = None
     if req.history:
         history = [{"role": m.role, "content": m.content} for m in req.history]

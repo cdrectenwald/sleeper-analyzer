@@ -11,15 +11,13 @@ class Settings:
         self.default_season: str = os.getenv("DEFAULT_SEASON", "2025")
         self.log_level: str = os.getenv("LOG_LEVEL", "INFO")
 
-        # Hardcode your league map for now - maps season -> league_id
         self.default_leagues: dict[str, str] = {
             "2025": "1257104404557856768",
             "2024": "1124856081965645824",
             "2023": "916867273804288000",
             "2022": "867850980811821056",
         }
-        
-        # Load from .env file if it exists
+
         self._load_dotenv()
     
     def _load_dotenv(self):

@@ -1,17 +1,7 @@
 """
 Health check endpoints for monitoring and load balancing.
 
-Provides endpoints for:
-- Basic liveness checks (is the service running?)
-- Readiness checks (is the service ready to accept traffic?)
-- Detailed health status with dependency checks
-
-These endpoints are designed to be lightweight and fast for use by
-Kubernetes probes, load balancers, and monitoring systems.
-
-Endpoints:
-    GET /health - Basic health check
-    GET /health/ready - Readiness check with database connectivity test
+Lightweight endpoints for Kubernetes probes, load balancers, and monitoring.
 """
 
 from __future__ import annotations
@@ -37,15 +27,7 @@ router = APIRouter(prefix="/health", tags=["health"])
     description="Returns 200 if the service is running. Use for liveness probes.",
 )
 def health() -> HealthResponse:
-    """
-    Basic liveness check.
-
-    This endpoint should always return 200 if the Python process is healthy.
-    Does not check external dependencies.
-
-    Returns:
-        HealthResponse with status "ok" and current version.
-    """
+    """Basic liveness check. Always returns 200 if the process is healthy."""
     return HealthResponse(status="ok", version="0.1.0")
 
 
@@ -60,25 +42,11 @@ def health() -> HealthResponse:
     """,
 )
 def health_ready() -> HealthResponse:
-    """
-    Readiness check with dependency verification.
-
-    Checks:
-    - Database file exists and is readable
-    - Database connection can be established
-    - Basic query executes successfully
-
-    Returns:
-        HealthResponse with status "ok" if all checks pass.
-
-    Raises:
-        HTTPException: 503 if any dependency check fails.
-    """
+    """Readiness check. Verifies database exists and is queryable."""
     from fastapi import HTTPException
 
     db_path = Path(settings.db_path)
 
-    # Check database file exists
     if not db_path.exists():
         log.warning("Readiness check failed: database not found at %s", db_path)
         raise HTTPException(
@@ -86,7 +54,6 @@ def health_ready() -> HealthResponse:
             detail={"status": "unavailable", "reason": "database_not_found"},
         )
 
-    # Check database is queryable
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.execute("SELECT 1")

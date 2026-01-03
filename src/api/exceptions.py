@@ -1,26 +1,13 @@
 """
 Custom exception hierarchy for the Sleeper Analyzer API.
 
-This module defines domain-specific exceptions that map cleanly to HTTP status codes
-and provide structured error responses. All exceptions inherit from SleeperAnalyzerError
-to allow broad catching at the handler level while preserving specificity.
+Domain-specific exceptions that map to HTTP status codes:
 
-Exception Hierarchy:
-    SleeperAnalyzerError (base)
-    ├── ValidationError (400)
-    ├── SeasonNotFoundError (404)
-    ├── LeagueNotFoundError (404)
-    ├── ManagerNotFoundError (404)
-    ├── PlayerNotFoundError (404)
-    ├── LLMError (502)
-    │   ├── LLMTimeoutError (504)
-    │   └── LLMRateLimitError (429)
-    └── DataError (500)
-
-Example:
-    >>> from src.api.exceptions import SeasonNotFoundError
-    >>> raise SeasonNotFoundError(season="2019")
-    # Results in 404 with {"error": "season_not_found", "detail": "..."}
+- SleeperAnalyzerError (base, 500)
+- ValidationError (400)
+- SeasonNotFoundError, LeagueNotFoundError, ManagerNotFoundError, PlayerNotFoundError (404)
+- LLMError (502), LLMTimeoutError (504), LLMRateLimitError (429)
+- DataError (500)
 """
 
 from __future__ import annotations
@@ -35,17 +22,7 @@ log = logging.getLogger(__name__)
 
 
 class SleeperAnalyzerError(Exception):
-    """
-    Base exception for all Sleeper Analyzer domain errors.
-
-    Attributes:
-        status_code: HTTP status code to return.
-        error_code: Machine-readable error identifier (e.g., "season_not_found").
-        detail: Human-readable error message.
-        context: Additional structured data for debugging.
-
-    All subclasses should set appropriate defaults for status_code and error_code.
-    """
+    """Base exception for all Sleeper Analyzer domain errors."""
 
     status_code: int = 500
     error_code: str = "internal_error"
@@ -55,24 +32,13 @@ class SleeperAnalyzerError(Exception):
         detail: str = "An unexpected error occurred",
         context: dict[str, Any] | None = None,
     ) -> None:
-        """
-        Initialize the exception.
-
-        Args:
-            detail: Human-readable error message.
-            context: Additional key-value pairs for debugging/logging.
-        """
+        """Initialize with detail message and optional context dict."""
         super().__init__(detail)
         self.detail = detail
         self.context = context or {}
 
     def to_response_dict(self) -> dict[str, Any]:
-        """
-        Convert exception to a JSON-serializable response body.
-
-        Returns:
-            Dictionary with 'error', 'detail', and optionally 'context' keys.
-        """
+        """Convert exception to a JSON-serializable response body."""
         response = {
             "error": self.error_code,
             "detail": self.detail,
@@ -83,15 +49,8 @@ class SleeperAnalyzerError(Exception):
         return response
 
 
-# --- 4xx Client Errors ---
-
-
 class ValidationError(SleeperAnalyzerError):
-    """
-    Request validation failed beyond Pydantic's automatic validation.
-
-    Use for semantic validation (e.g., week_start > week_end, invalid season format).
-    """
+    """Request validation failed beyond Pydantic's automatic validation."""
 
     status_code = 400
     error_code = "validation_error"
