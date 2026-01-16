@@ -9,6 +9,10 @@ This tool helps fantasy football managers understand their performance beyond ju
 - **All-Play Records**: How would you have done if you played every team every week?
 - **Luck Score**: The difference between your actual wins and expected wins based on all-play
 - **Historical Analysis**: Query multiple seasons of data through natural language
+- Responds in a Bill Simmon's esque voice
+
+<img width="527" height="398" alt="image" src="https://github.com/user-attachments/assets/8ad93d9c-2dc0-4ebc-b261-3d3cc702e9f9" />
+
 
 ## Prerequisites
 
@@ -16,6 +20,12 @@ This tool helps fantasy football managers understand their performance beyond ju
 - A Sleeper fantasy football league ID (find it in your league URL: `sleeper.app/leagues/{league_id}`)
 - OpenAI API key (for the chat interface)
 
+## TODOS
+
+- Create Github action to update data
+- Implement new data/metrics
+- Token analysis
+ 
 ## Setup
 
 ### 1. Create a Virtual Environment
